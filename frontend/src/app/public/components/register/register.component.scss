@@ -1,0 +1,52 @@
+.container {
+  background: linear-gradient(rgba(0, 0, 0.2, 0.1), rgba(0, 0, 0, 0.1)), url('../../../../assets/images/background.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+
+  .login-route {
+    margin-top: 10px;
+    font-size: large;
+    font-family: 'Times New Roman', Times, serif;
+
+      a {
+        color: white;
+        text-decoration: none;
+
+        &:hover {
+          color: purple;
+        }
+      }
+  }
+
+  mat-card {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.3);
+    mat-card-content {
+      form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        mat-form-field {
+          width: 100%;
+          min-width: 300px;
+        }
+
+        .button {
+          display: flex;
+          justify-content: flex-end;
+        }
+      }
+    }
+  }
+}

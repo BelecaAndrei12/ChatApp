@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Test, TestService } from './services/test.service';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -10,6 +9,5 @@ import { Observable } from 'rxjs';
 export class AppComponent {
   title = 'frontend';
 
-  testValue: Observable<Test> = this.testService.getTest();
-  constructor(private testService: TestService) {}
+  constructor() {}
 }

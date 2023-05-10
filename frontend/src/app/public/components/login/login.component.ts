@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -6,10 +10,42 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+  loginForm: FormGroup = new FormGroup({});
 
-  constructor() { }
+  wrongCredentials: boolean = false;
+
+  constructor(
+      private authService: AuthService,
+      private router: Router,
+      private formBuilder: FormBuilder
+  ) { }
 
   ngOnInit(): void {
+    this.loginForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]]
+    })
   }
+
+  onSubmit(): void {
+  if (this.loginForm.valid) {
+    this.authService.login({
+      email: this.loginForm.value.email,
+      password: this.loginForm.value.password,
+    }).subscribe(
+      () => {
+        // Successful login
+        this.router.navigate(['/private/chat-dashboard']);
+      },
+      (error) => {
+        // Error handling
+        if (error.status === 401) {
+          // Wrong credentials error
+          this.wrongCredentials = true;
+        }
+      }
+    );
+  }
+}
 
 }

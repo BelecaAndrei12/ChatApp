@@ -1,7 +1,8 @@
 import {
   ConflictException,
+  HttpException,
+  HttpStatus,
   Injectable,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './model/user.entity';
@@ -44,7 +45,7 @@ export class UserService {
 
     const userExists = await this.userRepository.findOne({ where: { email } });
     if (!userExists) {
-      throw new UnauthorizedException('User not found!');
+      throw new HttpException('User not found!',HttpStatus.BAD_REQUEST);
     }
 
     const passwordMatch = await this.authService.comparePasswords(password, userExists.password);
@@ -52,7 +53,7 @@ export class UserService {
         const payload: User = await this.findUserById(userExists.id)
         return this.authService.generateJwt(payload)
     } else {
-        throw new UnauthorizedException('Wrong credentials!!');
+      throw new HttpException('Wrong credentials!',HttpStatus.UNAUTHORIZED);
     }
   }
 

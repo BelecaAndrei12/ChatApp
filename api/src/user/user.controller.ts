@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, UseGuards } from '@nestjs/common';
+import { Controller, Post, Body, Get, UseGuards, HttpException } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './model/dtos/create-user.dto';
 import { LoginUserDto } from './model/dtos/login-user.dto';
@@ -16,7 +16,7 @@ export class UserController {
       const user = await this.userService.createUser(username, email, password);
       return { user };
     } catch (error) {
-      return { error: error.message };
+      throw new HttpException({ error: error.message }, error.status);
     }
   }
 
@@ -26,11 +26,11 @@ export class UserController {
       const jwt = await this.userService.login(loginUserDto);
       return {
         message: jwt,
-        token_type:'JWT',
-        expires_in: 10000
+        token_type: 'JWT',
+        expires_in: 10000,
       };
     } catch (error) {
-      return { error: error.message };
+      throw new HttpException({ error: error.message }, error.status);
     }
   }
 
