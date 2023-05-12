@@ -1,1 +1,22 @@
-<p>chat-dashboard works!</p>
+<div class="dashboard-container">
+  <div class="chat-rooms-container">
+    <div class="chat-room-list-header">
+      <h1>Chats</h1>
+      <button mat-raised-button color="primary" class="create-room-button" (click) ="onCreateChatRoom()">Create New Room</button>
+    </div>
+    <ng-container *ngIf="chatRooms$ | async as chatRooms">
+      <mat-list class="chat-list">
+        <mat-list-item class="chat-list-item" *ngFor="let room of chatRooms">
+          <div class="item-content">
+            <span class="item-title">Name: {{ room.name }}</span>
+            <span class="item-id">Id: {{ room.id }}</span>
+          </div>
+        </mat-list-item>
+        <div  *ngIf ="chatRooms.length === 0 || !chatRooms" class="empty-chat-list">
+          <h1>You don`t have any chat rooms at the moment</h1>
+          <p>Add one using the button above</p>
+        </div>
+      </mat-list>
+    </ng-container>
+  </div>
+</div>

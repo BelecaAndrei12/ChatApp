@@ -1,0 +1,81 @@
+html,body {
+  background-color: linear-gradient(rgba(0, 0, 0.2, 0.1), rgba(0, 0, 0, 0.1))
+}
+
+.dashboard-container {
+  display: flex;
+  align-items: center;
+  height: 70vh;
+
+
+  .chat-rooms-container {
+    margin: 10px;
+    height: 300px;
+    width: 350px;
+    padding: 10px;
+
+    .chat-room-list-header {
+      display: flex;
+      justify-content: space-between;
+      padding: 5px;
+      h1 {
+        font-size: 5vh;
+      }
+      .create-room-button {
+        background-color: #555555;
+        color: #ffffff;
+        font-size: 12px;
+        padding: 4px 8px;
+      }
+    }
+
+
+    .chat-list {
+      background: linear-gradient(rgba(0, 0, 0.2, 0.1), rgba(0, 0, 0, 0.1)), url('../../../../assets/images/chat-wallpaper.jpg');
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+      height: 500px;
+      overflow-y: auto;
+      border-radius: 2%;
+
+      .chat-list-item {
+        height: 6vh;
+        color: white;
+        border-bottom: 0.5px solid rgb(240, 237, 237);
+      }
+
+      .chat-list-item:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+      }
+
+      .empty-chat-list {
+        color: white;
+        font-family: 'Times New Roman', Times, serif;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+
+      }
+    }
+  }
+}
+
+.chat-list::-webkit-scrollbar {
+  width: 12px;
+  height: 120px;
+}
+
+.chat-list::-webkit-scrollbar-thumb {
+  //background-color: rgb(224, 224, 152);
+  background-color: #ffffff;
+  border-radius: 6px;
+}
+
+.chat-list::-webkit-scrollbar-track {
+  background-color: transparent;
+  max-height: 300px;
+}
+

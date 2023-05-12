@@ -1,10 +1,12 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { ChatRoomEntity } from 'src/chat/model/chat-room.entity';
+import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class UserEntity {
   @PrimaryGeneratedColumn()
   id: number;
-
+  
+  @Column()
   username: string;
 
   @Column({ unique: true })
@@ -12,4 +14,7 @@ export class UserEntity {
 
   @Column()
   password: string;
+
+  @ManyToMany(() =>  ChatRoomEntity, chatRoom => chatRoom.users)
+  chatRooms: ChatRoomEntity[];
 }

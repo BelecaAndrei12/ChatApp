@@ -24,10 +24,13 @@ export class AuthService {
 
   login(user: User): Observable<LoginResponse> {
     return this.http.post<LoginResponse>('api/users/login', user).pipe(
-      tap((response) => console.log(response)),
       tap((response: LoginResponse) => localStorage.setItem('jwt-token',response.message)),
-      tap(() => console.log('Logged in!!!!'))
+      tap(() => console.log(this.getLoggedUser()))
     )
+  }
+
+  getUsersByName(username: string): Observable<User[]> {
+    return this.http.get<User[]>(`api/users/find-users?username=${username}`);
   }
 
   getLoggedUser() {

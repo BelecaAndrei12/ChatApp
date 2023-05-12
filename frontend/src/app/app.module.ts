@@ -12,7 +12,6 @@ import { JwtModule } from '@auth0/angular-jwt';
 export function tokenGetter() {
   return localStorage.getItem("jwt-token");
 }
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,7 +27,7 @@ export function tokenGetter() {
         tokenGetter: tokenGetter,
         allowedDomains: ['localhost:3000']
       }
-    })
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]

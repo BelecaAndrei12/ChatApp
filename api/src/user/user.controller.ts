@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, UseGuards, HttpException } from '@nestjs/common';
+import { Controller, Post, Body, Get, UseGuards, HttpException, Query } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './model/dtos/create-user.dto';
 import { LoginUserDto } from './model/dtos/login-user.dto';
@@ -38,5 +38,10 @@ export class UserController {
   @Get()
   async findAllUsers(): Promise<User[]> {
     return this.userService.findAllUsers();
+  }
+  @UseGuards(JwtAuthGuard)
+  @Get('/find-users')
+  async findUsersByName(@Query('username') username: string): Promise<User[]> {
+    return this.userService.findUserByName(username);
   }
 }
