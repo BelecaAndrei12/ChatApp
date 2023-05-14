@@ -11,15 +11,19 @@ import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatChipsModule } from "@angular/material/chips";
 import { MatIconModule } from "@angular/material/icon";
 import { CreateChatRoomComponent } from './components/create-chat-room/create-chat-room.component';
-import { ReactiveFormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { ChatRoomsResolver } from "./resolver/chatrooms.resolver";
+import { ChatComponent } from './components/chat/chat.component';
 
 @NgModule({
   declarations: [
     ChatDashboardComponent,
-    CreateChatRoomComponent
+    CreateChatRoomComponent,
+    ChatComponent
   ],
   imports: [
     CommonModule,
+    FormsModule,
     PrivateRoutingModule,
     MatListModule,
     MatInputModule,
@@ -30,6 +34,7 @@ import { ReactiveFormsModule } from "@angular/forms";
     MatChipsModule,
     MatIconModule,
     ReactiveFormsModule,
-  ]
+  ],
+  providers:[ChatRoomsResolver]
 })
 export class PrivateModule { }

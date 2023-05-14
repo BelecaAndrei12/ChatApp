@@ -22,6 +22,16 @@ export class ChatRoomService {
     return chatRoom 
   }
 
+
+ 
+  async getChatRoomById(chatRoomId: number): Promise<ChatRoom> {
+    return this.chatRoomRepository
+      .createQueryBuilder("chatRoom")
+      .leftJoinAndSelect("chatRoom.users", "users")
+      .where("chatRoom.id = :chatRoomId", { chatRoomId })
+      .getOne();
+  }
+
   async getChatRoomsByUser(user: User): Promise<ChatRoomEntity[]> {
     return this.chatRoomRepository
       .createQueryBuilder('chatRoom')

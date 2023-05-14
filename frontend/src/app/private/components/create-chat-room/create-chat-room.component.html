@@ -9,9 +9,11 @@
 
             <mat-form-field>
               <input type="text" matInput placeholder="Name" formControlName="name">
-
+              <mat-error *ngIf="createNewChatRoomForm.get('name')?.invalid && (createNewChatRoomForm.get('name')?.dirty || createNewChatRoomForm.get('name')?.touched)">
+                A chatroom name is required.
+              </mat-error>
             </mat-form-field>
-
+            <div class="select-user-container">
             <mat-form-field>
               <input type="text" matInput placeholder="Search users to add" [matAutocomplete]="auto" formControlName="findUser">
               <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayUsers" (optionSelected)="onUserSelected($event.option.value)">
@@ -22,7 +24,10 @@
                 </ng-container>
               </mat-autocomplete>
             </mat-form-field>
-            <button mat-button type="button" (click)="onAddUser()" [disabled]="!selectedUser">Add User</button>
+            <button mat-icon-button type="button" (click)="onAddUser()" [disabled]="!selectedUser">
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
 
             <mat-chip-list>
               <mat-chip *ngFor="let user of createNewChatRoomForm.get('users').value">
@@ -37,8 +42,13 @@
 
           </form>
         </mat-card-content>
-
       </mat-card>
+      <div class="dashboard-route">
+        <a [routerLink]="['/private/chat-dashboard']">
+          <mat-icon>backspace</mat-icon>
+          <p>Back to the dashboard</p>
+        </a>
+      </div>
     </div>
   </div>
 </div>

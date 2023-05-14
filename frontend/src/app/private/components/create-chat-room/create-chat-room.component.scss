@@ -1,5 +1,5 @@
 .container {
-  background: linear-gradient(rgba(0, 0, 0.2, 0.1), rgba(0, 0, 0, 0.1)), url('../../../../assets/images/background.jpg');
+  background: linear-gradient(rgba(0, 0, 0.3, 0.3), rgba(0, 0, 0, 0.1)), url('../../../../assets/images/background.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -13,6 +13,26 @@
   height: 100%;
   overflow: auto;
 
+  .dashboard-route {
+    margin-top: 10px;
+    font-size: large;
+    font-family: 'Times New Roman', Times, serif;
+
+      a {
+        display: flex;
+        color: white;
+        text-decoration: none;
+        p {
+          margin-left: 2px;
+        }
+
+        &:hover {
+          color: purple;
+        }
+      }
+  }
+
+
   mat-card {
     background-color: rgba(255, 255, 255, 0.3);
     border-color: rgba(255, 255, 255, 0.3);
@@ -21,15 +41,31 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
+        height: 200px;
 
         mat-form-field {
           width: 100%;
           min-width: 300px;
+
+          mat-error {
+            margin-bottom: 5px;
+          }
+        }
+
+        .mat-chip {
+          background-color: rgb(241, 241, 185);
+
         }
 
         .button {
           display: flex;
           justify-content: flex-end;
+        }
+
+        .select-user-container{
+          display: flex;
+          flex-direction: row;
+
         }
       }
     }

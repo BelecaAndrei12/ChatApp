@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './model/user.entity';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { User } from './model/user.model';
 import { AuthService } from 'src/auth/auth.service';
 
@@ -66,6 +66,7 @@ export class UserService {
   }
 
   async findUserByName(username: string):Promise<User[]> {
-    return this.userRepository.find({where:{ username }})
+    const searchedUsername = `%${username}%`;
+    return this.userRepository.find({where: { username: Like(searchedUsername)}})
   }
 }
