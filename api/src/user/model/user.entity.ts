@@ -1,5 +1,5 @@
 import { ChatRoomEntity } from 'src/chat/model/chat-room.entity';
-import { Column, Entity, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { ConnectionEntity } from './connection.entity';
 import { MessageEntity } from 'src/chat/model/message.entity';
 import { ActiveChatEntity } from 'src/chat/model/active-chat.entity';
@@ -18,6 +18,12 @@ export class UserEntity {
   @Column()
   password: string;
 
+  @Column({nullable: true})
+  publicKey: string;
+
+  @Column({nullable: true})
+  privateKey: string;
+
   @ManyToMany(() =>  ChatRoomEntity, chatRoom => chatRoom.users)
   chatRooms: ChatRoomEntity[];
 
@@ -29,5 +35,4 @@ export class UserEntity {
 
   @OneToMany(() => MessageEntity, message => message.user)
   messages: MessageEntity[]
-
 }

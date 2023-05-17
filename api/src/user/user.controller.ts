@@ -4,6 +4,7 @@ import { CreateUserDto } from './model/dtos/create-user.dto';
 import { LoginUserDto } from './model/dtos/login-user.dto';
 import { User } from './model/user.model';
 import { JwtAuthGuard } from 'src/auth/jwt.guard';
+import { ChatRoom } from 'src/chat/model/chat-room.model';
 
 @Controller('users')
 export class UserController {

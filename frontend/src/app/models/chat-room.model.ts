@@ -5,5 +5,6 @@ export interface ChatRoom {
   name?: string;
   creationDate?: Date;
   lastUpdated?: Date;
+  encryptedSymmetricKey: string;
   users?: User[];
 }

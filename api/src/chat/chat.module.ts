@@ -11,6 +11,7 @@ import { MessageEntity } from './model/message.entity';
 import { ActiveChatEntity } from './model/active-chat.entity';
 import { ActiveChatService } from './services/active-chat.service';
 import { MessageService } from './services/message.service';
+import { SymmetricKeyService } from 'src/encryption/symmetric-key.service';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { MessageService } from './services/message.service';
     ConnectionService,
     ActiveChatService,
     MessageService,
+    SymmetricKeyService,
   ]
 })
 export class ChatModule {}

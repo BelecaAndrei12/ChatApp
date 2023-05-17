@@ -1,10 +1,11 @@
 import { Component, Input, OnChanges, OnDestroy, OnInit, ChangeDetectionStrategy, ViewChild, ElementRef } from '@angular/core';
 import { ChatService } from '../../services/chat.service';
-import { Observable } from 'rxjs';
-import { map, startWith, tap } from 'rxjs/operators';
+import { Observable, combineLatest } from 'rxjs';
+import { first, map, startWith, take, tap } from 'rxjs/operators';
 import { Message } from 'src/app/models/message.model';
 import { ChatRoom } from 'src/app/models/chat-room.model';
 import { AuthService } from 'src/app/public/services/auth.service';
+import { SymmetricKeyService } from '../../services/symmetric-key.service';
 
 @Component({
   selector: 'app-chat',
@@ -14,35 +15,43 @@ import { AuthService } from 'src/app/public/services/auth.service';
 })
 export class ChatComponent implements OnInit, OnChanges, OnDestroy {
   @Input() activeChatRoom: ChatRoom;
-  @ViewChild('messageContainer') private messageContainer: ElementRef
+  @ViewChild('messageContainer') private messageContainer: ElementRef;
 
   messages$: Observable<Message[]>;
   messageContent: string = '';
   loggedUserId = this.authService.getLoggedUser().id;
+  scrolledToBottom: boolean = true;
 
   constructor(
     private chatService: ChatService,
-    private authService: AuthService
+    private authService: AuthService,
+    private symmetricKeyService: SymmetricKeyService,
   ) {}
 
-  ngOnInit(){
-    this.messages$ = this.chatService.getMessages().pipe(
-      tap(() => this.scrollToBottom())
+  ngOnInit(): void {
+    this.messages$ = combineLatest([
+      this.chatService.getMessages(),
+      this.chatService.getAddedMessage().pipe(startWith(null))
+    ]).pipe(
+      map(([messages, addedMessage]) => {
+        if (addedMessage && addedMessage.chatRoom.id === this.activeChatRoom.id) {
+          messages = [...messages, addedMessage];
+        }
+        return messages;
+      }),
+      tap(() => this.scrollToBottom()),
+      tap(() => this.chatService.joinRoom(this.activeChatRoom))
     );
-    return this.chatService.getAddedMessage().subscribe((addedMessage) => {
-      if (addedMessage && addedMessage.chatRoom.id === this.activeChatRoom.id) {
-       return  this.messages$ = this.messages$.pipe(
-          map((messages) => [...messages, addedMessage])
-        );
-      } else {
-        return null
-      }
-    });
   }
 
   ngOnChanges(): void {
     if (this.activeChatRoom) {
       this.chatService.joinRoom(this.activeChatRoom);
+      this.chatService.getChatMembers().pipe(
+        first(),
+        map((res) => this.activeChatRoom.users = res),
+        tap(() => this.symmetricKeyService.decryptAndReconstructSymmetricKey(this.activeChatRoom))
+       ).subscribe()
     }
   }
 
@@ -61,9 +70,17 @@ export class ChatComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
+  onScroll(): void {
+    const container = this.messageContainer.nativeElement;
+    const isScrolledToBottom = container.scrollHeight - container.clientHeight <= container.scrollTop + 1;
+    this.scrolledToBottom = isScrolledToBottom;
+  }
+
   private scrollToBottom(): void {
     setTimeout(() => {
-      this.messageContainer.nativeElement.scrollTop = this.messageContainer.nativeElement.scrollHeight;
+      if (this.scrolledToBottom) {
+        this.messageContainer.nativeElement.scrollTop = this.messageContainer.nativeElement.scrollHeight;
+      }
     });
   }
 }

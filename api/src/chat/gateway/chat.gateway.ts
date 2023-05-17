@@ -85,10 +85,11 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   @SubscribeMessage('joinRoom')
   async onJoinRoom(socket: Socket, chatRoom: ChatRoom) {
+    const chatMembers = await this.chatRoomService.getUsersByChatRoom(chatRoom);
     const messages = await this.messageService.getMessagesForRoom(chatRoom);
 
     await this.activeChatService.create({socketId: socket.id, user: socket.data.user,chatRoom})
-
+    await this.server.to(socket.id).emit('chat-members',chatMembers)
     await this.server.to(socket.id).emit('messages',messages);
   }
 
@@ -99,12 +100,13 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   @SubscribeMessage('addMessage') 
   async onAddMessage(socket: Socket, message: Message) {
-    const createdMessage: Message = await this.messageService.create({...message, user: socket.data.user})
-    const chatRoom: ChatRoom =  await this.chatRoomService.getChatRoomById(createdMessage.chatRoom.id)
-    const joinedUsers: ActiveChat[] = await this.activeChatService.findByRoom(chatRoom)
-    for(const user of joinedUsers) {
-      console.log(user)
+    const createdMessage: Message = await this.messageService.create({ ...message, user: socket.data.user });
+    const chatRoom: ChatRoom = await this.chatRoomService.getChatRoomById(createdMessage.chatRoom.id);
+    const joinedUsers: ActiveChat[] = await this.activeChatService.findByRoom(chatRoom);
+  
+    for (const user of joinedUsers) {
       await this.server.to(user.socketId).emit('messageAdded', createdMessage);
     }
   }
+  
 }

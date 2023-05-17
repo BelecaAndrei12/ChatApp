@@ -9,6 +9,7 @@ import { UserEntity } from './model/user.entity';
 import { Like, Repository } from 'typeorm';
 import { User } from './model/user.model';
 import { AuthService } from 'src/auth/auth.service';
+import { EncryptionService } from 'src/encryption/encyption.service';
 
 @Injectable()
 export class UserService {
@@ -16,6 +17,7 @@ export class UserService {
     @InjectRepository(UserEntity)
     private userRepository: Repository<UserEntity>,
     private authService: AuthService,
+    private encryptionService: EncryptionService,
   ) {}
 
   async createUser(
@@ -36,6 +38,10 @@ export class UserService {
     user.username = username;
     user.email = email;
     user.password = hashedPassword;
+
+    const encryptionKeys = await this.encryptionService.generateKeyPair();
+    user.privateKey = encryptionKeys.privateKey;
+    user.publicKey = encryptionKeys.publicKey;  
 
     return this.userRepository.save(user);
   }

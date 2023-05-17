@@ -1,9 +1,11 @@
 <div class="chat-box">
-  <div class="message-container" #messageContainer>
-    <div class="message" *ngFor="let message of messages$ | async" [ngClass]="{'own-message': message.user.id === loggedUserId}">
+  <div class="message-container" #messageContainer (scroll)="onScroll()">
+    <ng-container *ngIf="messages$ | async as messages">
+    <div class="message" *ngFor="let message of messages" [ngClass]="{'own-message': message.user.id === loggedUserId}">
       <p class="date">{{ message.created | date: 'yyyy-MM-dd HH:mm' }}</p>
       <p>{{ message.user.username }}: {{ message.content }}</p>
     </div>
+  </ng-container>
   </div>
   <mat-form-field appearance="fill" class="input-field">
     <input matInput placeholder="Type a message" [(ngModel)]="messageContent">

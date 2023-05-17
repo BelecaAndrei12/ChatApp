@@ -17,6 +17,9 @@ export class ChatRoomEntity {
     @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
     lastUpdated: Date;
 
+    @Column({nullable: true})
+    encryptedSymmetricKey: string;
+
     @ManyToMany(() => UserEntity)
     @JoinTable()
     users: UserEntity[];

@@ -2,15 +2,19 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { ChatRoom } from "src/app/models/chat-room.model";
 import { Message } from "src/app/models/message.model";
-import { User } from "src/app/models/user.model";
 import { CustomSocket } from "src/app/sockets/custom-socket";
+import { EncryptionService } from "./encryption.service";
+import { User } from "src/app/models/user.model";
 
 @Injectable({
   providedIn:'root'
 })
 export class ChatService {
 
-  constructor(private socket: CustomSocket) {}
+  constructor(
+    private socket: CustomSocket,
+    private encryptionService: EncryptionService,
+    ) {}
 
   getMessage() {
     return this.socket.fromEvent('message');
@@ -41,7 +45,12 @@ export class ChatService {
   }
 
   getAddedMessage(): Observable<Message> {
+    this.getMessages()
     return this.socket.fromEvent<Message>('messageAdded');
+  }
+
+  getChatMembers(): Observable<User[]> {
+    return this.socket.fromEvent<User[]>('chat-members');
   }
 }
 
