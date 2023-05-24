@@ -6,5 +6,6 @@ export interface ChatRoom {
   creationDate?: Date;
   lastUpdated?: Date;
   encryptedSymmetricKey: string;
+  decryptedSymmetricKey: Buffer
   users?: User[];
 }

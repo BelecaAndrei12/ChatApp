@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { ChatRoom } from 'src/app/models/chat-room.model';
 import { Router } from '@angular/router';
 import { map, tap } from 'rxjs/operators';
+import { Message } from 'src/app/models/message.model';
 
 @Component({
   selector: 'app-chat-dashboard',
@@ -14,19 +15,22 @@ export class ChatDashboardComponent implements OnInit {
 
   chatRooms$: Observable<ChatRoom[]>;
   selectedChatRoom: ChatRoom | null = null;
+  lastMessage!:Message;
 
   constructor(
     private chatService: ChatService,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
+
     this.chatRooms$ = this.chatService.getChatRoomsForUser().pipe(
       map((rooms) => {
         this.selectedChatRoom = rooms[1];
         console.log(rooms)
         return rooms;
-      })
+      }),
+      tap(() =>  this.selectedChatRoom =  null)
     );
   }
 
@@ -37,5 +41,9 @@ export class ChatDashboardComponent implements OnInit {
 
   onSelectedChatRoom(chatRoom: ChatRoom) {
     this.selectedChatRoom = chatRoom;
+  }
+
+  handleLastMessage(message: Message) {
+    this.lastMessage = message
   }
 }

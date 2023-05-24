@@ -21,6 +21,10 @@ export class ChatRoomService {
      return this.chatRoomRepository.save(room)
   }
 
+  async updateChatRoom(chatRoom: ChatRoom) {
+    return this.chatRoomRepository.save(chatRoom)
+  }
+
   async addCreatorToChatRoom(chatRoom: ChatRoom, createdBy: User): Promise<ChatRoom> {
     chatRoom.users.push(createdBy);
     return chatRoom 

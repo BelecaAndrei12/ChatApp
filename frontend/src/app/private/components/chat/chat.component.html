@@ -1,5 +1,5 @@
 <div class="chat-box">
-  <div class="message-container" #messageContainer (scroll)="onScroll()">
+  <div *ngIf="activeChatRoom" class="message-container" #messageContainer (scroll)="onScroll()">
     <ng-container *ngIf="messages$ | async as messages">
     <div class="message" *ngFor="let message of messages" [ngClass]="{'own-message': message.user.id === loggedUserId}">
       <p class="date">{{ message.created | date: 'yyyy-MM-dd HH:mm' }}</p>
@@ -7,8 +7,21 @@
     </div>
   </ng-container>
   </div>
-  <mat-form-field appearance="fill" class="input-field">
+  <mat-form-field *ngIf="activeChatRoom else noSelectedChats " appearance="fill" class="input-field">
     <input matInput placeholder="Type a message" [(ngModel)]="messageContent">
     <button mat-button matSuffix [disabled]="!messageContent" (click)="onSendMessage()">Send</button>
   </mat-form-field>
+
+  <ng-template class="noChats" #noSelectedChats>
+    <h1 style="height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: xx-large;
+    ">Select a chatroom</h1>
+  </ng-template>
+
+  <button (click)="inviteUsers()">Test</button>
+  <button style='background-color: red;'(click)="leaveChatRoom()">Leave</button>
 </div>

@@ -16,9 +16,14 @@ export class SymmetricKeyService {
 
         for (const user of chatRoom.users) {
             const encryptedKey = publicEncrypt(user.publicKey, symmetricKey);
-            encryptedKeys.push(encryptedKey);
+            encryptedKeys.push({userId: user.id, key:encryptedKey});
         }
-
+        chatRoom.users.forEach((user) => console.log(user.username))
         return JSON.stringify(encryptedKeys);
     }
+
+    // addNewKey(chatRoom: ChatRoom): string {
+        
+    // }
+      
 }

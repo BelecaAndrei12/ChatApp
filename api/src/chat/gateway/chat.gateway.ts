@@ -77,9 +77,45 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
             await this.server.to(connection.socketId).emit('chat-rooms',rooms)
           }
         }
-        return this.chatRoomService.createChatRoom(chatRoom,socket.data.user)
+        return chatRoomm;
     } catch {
       throw new UnauthorizedException();
+    }
+  }
+
+  @SubscribeMessage('inviteUser')
+  async handleInviteUserToChatRoom(socket: Socket, chatRoom: ChatRoom) {
+     await this.chatRoomService.updateChatRoom(chatRoom)
+     for(const user of chatRoom.users) {
+      const connections: Connection[] =  await this.connectionService.findConnectionByUser(user)
+      const rooms = await this.chatRoomService.getChatRoomsByUser(user)
+      for (const connection of connections) {
+        await this.server.to(connection.socketId).emit('chat-rooms',rooms)
+      }
+    }
+  }
+
+  @SubscribeMessage('leaveChatRoom')
+  async handleLeaveChatRoom(socket: Socket,chatRoom: ChatRoom) {
+    console.log("Room",chatRoom)
+    await this.chatRoomService.updateChatRoom(chatRoom)
+     for(const user of chatRoom.users) {
+      const connections: Connection[] =  await this.connectionService.findConnectionByUser(user)
+      const rooms = await this.chatRoomService.getChatRoomsByUser(user)
+      for (const connection of connections) {
+        await this.server.to(connection.socketId).emit('chat-rooms',rooms)
+      }
+    }
+  }
+
+  @SubscribeMessage('reloadChatRooms')
+  async onReloadChatRooms(socket:Socket,chatRoom:ChatRoom){
+    for(const user of chatRoom.users) {
+      const connections: Connection[] =  await this.connectionService.findConnectionByUser(user)
+      const rooms = await this.chatRoomService.getChatRoomsByUser(user)
+      for (const connection of connections) {
+        await this.server.to(connection.socketId).emit('chat-rooms',rooms)
+      }
     }
   }
 
@@ -87,9 +123,14 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   async onJoinRoom(socket: Socket, chatRoom: ChatRoom) {
     const chatMembers = await this.chatRoomService.getUsersByChatRoom(chatRoom);
     const messages = await this.messageService.getMessagesForRoom(chatRoom);
-
     await this.activeChatService.create({socketId: socket.id, user: socket.data.user,chatRoom})
     await this.server.to(socket.id).emit('chat-members',chatMembers)
+    await this.server.to(socket.id).emit('messages',messages);
+  }
+
+  @SubscribeMessage('reload-messages')
+  async onRealoadMessages(socket: Socket, chatRoom: ChatRoom) {
+    const messages = await this.messageService.getMessagesForRoom(chatRoom);
     await this.server.to(socket.id).emit('messages',messages);
   }
 

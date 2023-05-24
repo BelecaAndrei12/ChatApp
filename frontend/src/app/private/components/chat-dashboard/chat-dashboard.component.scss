@@ -52,6 +52,11 @@ html,body {
         height: 6vh;
         color: white;
         border-bottom: 0.5px solid rgb(240, 237, 237);
+
+        .item-content {
+          display: flex;
+          flex-direction: column;
+        }
       }
 
       .chat-list-item:hover {
@@ -87,4 +92,6 @@ html,body {
   background-color: transparent;
   max-height: 300px;
 }
+
+
 
