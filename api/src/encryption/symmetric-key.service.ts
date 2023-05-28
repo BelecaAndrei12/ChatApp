@@ -22,8 +22,6 @@ export class SymmetricKeyService {
         return JSON.stringify(encryptedKeys);
     }
 
-    // addNewKey(chatRoom: ChatRoom): string {
-        
-    // }
+    
       
 }

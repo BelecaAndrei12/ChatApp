@@ -1,4 +1,16 @@
 <div class="chat-box">
+  <div *ngIf="activeChatRoom" class="header">
+    <mat-icon class="user-icon">account_circle</mat-icon>
+    <div class="options">
+      <button mat-icon-button [matMenuTriggerFor]="optionsMenu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #optionsMenu="matMenu">
+        <button mat-menu-item (click)="leaveChatRoom()">Leave</button>
+        <button mat-menu-item (click)="openInviteUsersDialog()">Invite Users</button>
+      </mat-menu>
+    </div>
+  </div>
   <div *ngIf="activeChatRoom" class="message-container" #messageContainer (scroll)="onScroll()">
     <ng-container *ngIf="messages$ | async as messages">
     <div class="message" *ngFor="let message of messages" [ngClass]="{'own-message': message.user.id === loggedUserId}">
@@ -21,7 +33,4 @@
     font-size: xx-large;
     ">Select a chatroom</h1>
   </ng-template>
-
-  <button (click)="inviteUsers()">Test</button>
-  <button style='background-color: red;'(click)="leaveChatRoom()">Leave</button>
 </div>

@@ -1,11 +1,13 @@
 import { Component, Input, OnChanges, OnDestroy, OnInit, ChangeDetectionStrategy, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
 import { ChatService } from '../../services/chat.service';
 import { Observable, combineLatest, of } from 'rxjs';
-import { delay, first, map, startWith, tap } from 'rxjs/operators';
+import { delay, map, startWith, tap } from 'rxjs/operators';
 import { Message } from 'src/app/models/message.model';
 import { ChatRoom } from 'src/app/models/chat-room.model';
 import { AuthService } from 'src/app/public/services/auth.service';
 import { SymmetricKeyService } from '../../services/symmetric-key.service';
+import { MatDialog } from '@angular/material/dialog';
+import { InviteUsersComponent } from '../invite-users/invite-users.component';
 
 @Component({
   selector: 'app-chat',
@@ -28,6 +30,7 @@ export class ChatComponent implements OnInit, OnChanges, OnDestroy {
     private chatService: ChatService,
     private authService: AuthService,
     private symmetricKeyService: SymmetricKeyService,
+    private matDialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
@@ -61,6 +64,8 @@ export class ChatComponent implements OnInit, OnChanges, OnDestroy {
           this.chatService.reloadMessages(this.activeChatRoom);
         })),
         tap(() => this.scrollToBottom()),
+        //tap(() => console.log(this.symmetricKey)),
+        //tap(() => console.log(JSON.parse(this.activeChatRoom.encryptedSymmetricKey)))
       );
     }
   }
@@ -94,14 +99,6 @@ export class ChatComponent implements OnInit, OnChanges, OnDestroy {
     });
   }
 
-  inviteUsers() {
-    this.authService.getUsersByName('Test').subscribe((u) => {
-      this.activeChatRoom.users = [...this.activeChatRoom.users,...u]
-      console.log(this.activeChatRoom.users)
-      this.activeChatRoom.encryptedSymmetricKey = this.symmetricKeyService.encryptSymmetricKeyForInvitedUsers(u,this.symmetricKey,JSON.parse(this.activeChatRoom.encryptedSymmetricKey))
-      this.chatService.inviteUserToChatRoom(this.activeChatRoom);
-    } )
-  }
 
   leaveChatRoom() {
     const loggedUser = this.authService.getLoggedUser();
@@ -109,8 +106,19 @@ export class ChatComponent implements OnInit, OnChanges, OnDestroy {
     this.activeChatRoom.users = this.activeChatRoom.users.filter((user) => user.username !== loggedUser.username)
     this.activeChatRoom.encryptedSymmetricKey = this.symmetricKeyService.removeUserKeyOnLeave(loggedUser.id,JSON.parse(this.activeChatRoom.encryptedSymmetricKey))
     console.log(this.activeChatRoom)
-    this.chatService.leaveChatRoom(this.activeChatRoom);
-    //emit event to dashboard to reload chat rooms
+    this.chatService.leaveChatRoom(this.activeChatRoom,loggedUser);
+    window.location.reload();
+   }
+
+   openInviteUsersDialog(): void {
+    this.matDialog.open(InviteUsersComponent, {
+      width: '400px',
+      disableClose: true,
+      data: {
+        activeChatroom: this.activeChatRoom,
+        symmetricKey: this.symmetricKey,
+      }
+    });
   }
 
 }

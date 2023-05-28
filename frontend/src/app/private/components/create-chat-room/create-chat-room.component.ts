@@ -75,4 +75,10 @@ export class CreateChatRoomComponent implements OnInit {
     return user ? user.username : null;
   }
 
+  redirectToDashboard(): void {
+    setTimeout(() => {
+      this.router.navigate(['/private/chat-dashboard']);
+    }, 500);
+  }
+
 }

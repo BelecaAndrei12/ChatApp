@@ -54,7 +54,7 @@ services:
 
   # The Postgres Admin tool if we want to run some custom queries and so on against our Database
   postgres_admin:
-    image: dpage/pgadmin4:4.28
+    image: dpage/pgadmin4:7.1
     depends_on: 
       - postgres
     environment:

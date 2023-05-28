@@ -10,16 +10,20 @@ import { MatInputModule } from "@angular/material/input";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatChipsModule } from "@angular/material/chips";
 import { MatIconModule } from "@angular/material/icon";
+import { MatMenuModule } from "@angular/material/menu";
+import { MatDialogModule } from "@angular/material/dialog";
 import { CreateChatRoomComponent } from './components/create-chat-room/create-chat-room.component';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { ChatRoomsResolver } from "./resolver/chatrooms.resolver";
 import { ChatComponent } from './components/chat/chat.component';
+import { InviteUsersComponent } from './components/invite-users/invite-users.component';
 
 @NgModule({
   declarations: [
     ChatDashboardComponent,
     CreateChatRoomComponent,
-    ChatComponent
+    ChatComponent,
+    InviteUsersComponent,
   ],
   imports: [
     CommonModule,
@@ -33,6 +37,8 @@ import { ChatComponent } from './components/chat/chat.component';
     MatCardModule,
     MatChipsModule,
     MatIconModule,
+    MatMenuModule,
+    MatDialogModule,
     ReactiveFormsModule,
   ],
   providers:[ChatRoomsResolver]

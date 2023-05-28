@@ -1,18 +1,13 @@
 <div class="container">
   <div>
     <div>
-      <mat-card>
-        <mat-card-title>Create new chat room</mat-card-title>
+      <div  class="close-button">
+        <button mat-icon-button mat-dialog-close>
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+          <form [formGroup]="inviteUsersForm" (ngSubmit)="onSubmit()">
 
-        <mat-card-content>
-          <form [formGroup]="createNewChatRoomForm" (ngSubmit)="onSubmit()">
-
-            <mat-form-field>
-              <input type="text" matInput placeholder="Name" formControlName="name">
-              <mat-error *ngIf="createNewChatRoomForm.get('name')?.invalid && (createNewChatRoomForm.get('name')?.dirty || createNewChatRoomForm.get('name')?.touched)">
-                A chatroom name is required.
-              </mat-error>
-            </mat-form-field>
             <div class="select-user-container">
             <mat-form-field>
               <input type="text" matInput placeholder="Search users to add" [matAutocomplete]="auto" formControlName="findUser">
@@ -30,25 +25,17 @@
           </div>
 
             <mat-chip-list>
-              <mat-chip *ngFor="let user of createNewChatRoomForm.get('users').value">
+              <mat-chip *ngFor="let user of inviteUsersForm.get('users').value">
                 {{ user.username }}
                 <mat-icon matChipRemove (click)="onRemoveUser(user)">cancel</mat-icon>
               </mat-chip>
             </mat-chip-list>
 
-            <div class="button">
-              <button mat-button type="submit" [disabled]="!createNewChatRoomForm?.valid">Create Chatroom</button>
+            <div class="invite-button">
+              <button mat-button  mat-dialog-close type="submit" [disabled]="!inviteUsersForm.get('users')">Invite Users</button>
             </div>
 
           </form>
-        </mat-card-content>
-      </mat-card>
-      <div class="dashboard-route">
-        <a (click)="redirectToDashboard()">
-          <mat-icon>backspace</mat-icon>
-          <p>Back to the dashboard</p>
-        </a>
-      </div>
     </div>
   </div>
 </div>

@@ -96,27 +96,26 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   @SubscribeMessage('leaveChatRoom')
-  async handleLeaveChatRoom(socket: Socket,chatRoom: ChatRoom) {
+  async handleLeaveChatRoom(socket: Socket,chatRoom: ChatRoom, user: User) {
     console.log("Room",chatRoom)
     await this.chatRoomService.updateChatRoom(chatRoom)
-     for(const user of chatRoom.users) {
-      const connections: Connection[] =  await this.connectionService.findConnectionByUser(user)
-      const rooms = await this.chatRoomService.getChatRoomsByUser(user)
-      for (const connection of connections) {
-        await this.server.to(connection.socketId).emit('chat-rooms',rooms)
-      }
-    }
+    const connection = await this.connectionService.findConnectionByUser(user);
+    const chatRooms = await this.chatRoomService.getChatRoomsByUser(user)
+    await this.server.to(connection[0].socketId).emit('chat-rooms',chatRooms);
   }
 
   @SubscribeMessage('reloadChatRooms')
-  async onReloadChatRooms(socket:Socket,chatRoom:ChatRoom){
-    for(const user of chatRoom.users) {
-      const connections: Connection[] =  await this.connectionService.findConnectionByUser(user)
-      const rooms = await this.chatRoomService.getChatRoomsByUser(user)
-      for (const connection of connections) {
-        await this.server.to(connection.socketId).emit('chat-rooms',rooms)
-      }
-    }
+  async onReloadChatRooms(socket:Socket,chatRoom:ChatRoom,user: User){
+    const connection = await this.connectionService.findConnectionByUser(user);
+    const chatRooms = await this.chatRoomService.getChatRoomsByUser(user)
+    await this.server.to(connection[0].socketId).emit('chat-rooms',chatRooms);
+    // for(const user of chatRoom.users) {
+    //   const connections: Connection[] =  await this.connectionService.findConnectionByUser(user)
+    //   const rooms = await this.chatRoomService.getChatRoomsByUser(user)
+    //   for (const connection of connections) {
+    //     await this.server.to(connection.socketId).emit('chat-rooms',rooms)
+    //   }
+    // }
   }
 
   @SubscribeMessage('joinRoom')

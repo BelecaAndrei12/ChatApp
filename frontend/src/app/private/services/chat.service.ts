@@ -42,8 +42,8 @@ export class ChatService {
     this.socket.emit('inviteUser',chatRoom);
   }
 
-  leaveChatRoom(chatRoom: ChatRoom) {
-    this.socket.emit('leaveChatRoom',chatRoom);
+  leaveChatRoom(chatRoom: ChatRoom, user: User) {
+    this.socket.emit('leaveChatRoom',chatRoom,user);
   }
 
   reloadChatRooms(chatRoom: ChatRoom) {
