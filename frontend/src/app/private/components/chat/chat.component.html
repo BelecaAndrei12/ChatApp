@@ -9,8 +9,10 @@
         <button mat-menu-item (click)="leaveChatRoom()">Leave</button>
         <button mat-menu-item (click)="openInviteUsersDialog()">Invite Users</button>
       </mat-menu>
+
     </div>
   </div>
+
   <div *ngIf="activeChatRoom" class="message-container" #messageContainer (scroll)="onScroll()">
     <ng-container *ngIf="messages$ | async as messages">
     <div class="message" *ngFor="let message of messages" [ngClass]="{'own-message': message.user.id === loggedUserId}">
@@ -21,7 +23,9 @@
   </div>
   <mat-form-field *ngIf="activeChatRoom else noSelectedChats " appearance="fill" class="input-field">
     <input matInput placeholder="Type a message" [(ngModel)]="messageContent">
-    <button mat-button matSuffix [disabled]="!messageContent" (click)="onSendMessage()">Send</button>
+    <button class="send-button" mat-button matSuffix [disabled]="!messageContent" (click)="onSendMessage()">
+      <mat-icon>send</mat-icon>
+    </button>
   </mat-form-field>
 
   <ng-template class="noChats" #noSelectedChats>

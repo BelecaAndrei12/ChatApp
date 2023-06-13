@@ -12,11 +12,13 @@ import { MatChipsModule } from "@angular/material/chips";
 import { MatIconModule } from "@angular/material/icon";
 import { MatMenuModule } from "@angular/material/menu";
 import { MatDialogModule } from "@angular/material/dialog";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { CreateChatRoomComponent } from './components/create-chat-room/create-chat-room.component';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { ChatRoomsResolver } from "./resolver/chatrooms.resolver";
 import { ChatComponent } from './components/chat/chat.component';
 import { InviteUsersComponent } from './components/invite-users/invite-users.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,7 @@ import { InviteUsersComponent } from './components/invite-users/invite-users.com
     CreateChatRoomComponent,
     ChatComponent,
     InviteUsersComponent,
+    UserProfileComponent,
   ],
   imports: [
     CommonModule,
@@ -39,6 +42,7 @@ import { InviteUsersComponent } from './components/invite-users/invite-users.com
     MatIconModule,
     MatMenuModule,
     MatDialogModule,
+    MatProgressSpinnerModule,
     ReactiveFormsModule,
   ],
   providers:[ChatRoomsResolver]

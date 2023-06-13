@@ -46,8 +46,8 @@ export class ChatService {
     this.socket.emit('leaveChatRoom',chatRoom,user);
   }
 
-  reloadChatRooms(chatRoom: ChatRoom) {
-    this.socket.emit('reloadChatRooms', chatRoom)
+  reloadChatRooms(user: User) {
+    this.socket.emit('reloadChatRooms', user)
   }
 
   sendMessage(symmetricKey:Buffer,message: Message) {
@@ -63,29 +63,6 @@ export class ChatService {
     this.getMessages()
     return this.socket.fromEvent<Message>('messageAdded');
   }
-  // getMessages(symmetricKey: Buffer): Observable<Message[]> {
-  //   if(!symmetricKey){
-  //     console.log('Symmetric key not received')
-  //   }
-  //   return this.socket.fromEvent<Message[]>('messages').pipe(
-  //     map((messages) => {
-  //       for (const message of messages) {
-  //         message.content = this.symmetricKeyService.decryptMessage(symmetricKey, message.content);
-  //       }
-  //       return messages;
-  //     })
-  //   );
-  // }
-
-  // getAddedMessage(symmetricKey: Buffer): Observable<Message> {
-  //   this.getMessages(symmetricKey);
-  //   return this.socket.fromEvent<Message>('messageAdded').pipe(
-  //     map((message) => {
-  //       message.content = this.symmetricKeyService.decryptMessage(symmetricKey, message.content);
-  //       return message;
-  //     })
-  //   );
-  // }
 
 
   reloadMessages(chatRoom: ChatRoom) {

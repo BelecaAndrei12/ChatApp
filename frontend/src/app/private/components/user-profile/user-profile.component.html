@@ -1,0 +1,17 @@
+<div class="container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>This is your profile</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p><strong>Username:</strong> {{loggedUser.username}}</p>
+      <p><strong>Email:</strong>  {{loggedUser.email}}</p>
+    </mat-card-content>
+  </mat-card>
+  <div class="dashboard-route">
+    <a (click)="redirectToDashboard()">
+      <mat-icon>backspace</mat-icon>
+      <p>Back to the dashboard</p>
+    </a>
+  </div>
+</div>

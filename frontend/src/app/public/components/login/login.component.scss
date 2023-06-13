@@ -1,8 +1,9 @@
 .container {
-  background: linear-gradient(rgba(0, 0, 0.2, 0.1), rgba(0, 0, 0, 0.1)), url('../../../../assets/images/background.jpg');
+  background: linear-gradient(rgba(0, 0, 0.2, 0.1), rgba(0, 0, 0, 0.1)), url('../../../../assets/images/undraw_authentication_re_svpt.svg');
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: contain;
   background-position: center;
+  background-color:#caf0f8;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -19,11 +20,12 @@
     font-family: 'Times New Roman', Times, serif;
 
       a {
+        font-size: x-large;
         color: white;
         text-decoration: none;
 
         &:hover {
-          color: purple;
+          color: #03045e;
         }
       }
   }
@@ -36,8 +38,13 @@
       margin-bottom: 5px;
       font-size: larger;
     }
-    background-color: rgba(255, 255, 255, 0.3);
-    border-color: rgba(255, 255, 255, 0.3);
+    color: white;
+    background: rgba(20, 18, 18, 0.31);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10.4px);
+    -webkit-backdrop-filter: blur(10.4px);
+    border: 1px solid rgba(20, 18, 18, 0.3);
     mat-card-content {
       form {
         display: flex;
@@ -46,12 +53,28 @@
 
         mat-form-field {
           width: 100%;
-          min-width: 300px;
+          color: white;
+          min-height: 80px;
+          min-width: 400px;
         }
 
         .button {
           display: flex;
           justify-content: flex-end;
+        }
+
+        .button
+        button {
+          border-radius: 5%;
+          background-color: #0077b6;
+          color: white;
+          display: flex;
+
+        }
+
+        mat-hint {
+          color: white;
+          font-size:larger;
         }
       }
     }

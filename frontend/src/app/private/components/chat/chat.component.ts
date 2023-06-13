@@ -42,8 +42,6 @@ export class ChatComponent implements OnInit, OnChanges, OnDestroy {
   ngOnChanges(): void {
     if (this.activeChatRoom) {
       this.symmetricKey =  this.symmetricKeyService.decryptSymmetricKey(this.activeChatRoom)
-      //console.log(JSON.parse(this.activeChatRoom.encryptedSymmetricKey))
-      //console.log(this.symmetricKey)
       this.chatService.joinRoom(this.activeChatRoom)
       this.messages$ = combineLatest([
         this.chatService.getMessages(),

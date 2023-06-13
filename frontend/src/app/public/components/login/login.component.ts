@@ -34,13 +34,10 @@ export class LoginComponent implements OnInit {
       password: this.loginForm.value.password,
     }).subscribe(
       () => {
-        // Successful login
         this.router.navigate(['/private/chat-dashboard']);
       },
       (error) => {
-        // Error handling
         if (error.status === 401) {
-          // Wrong credentials error
           this.wrongCredentials = true;
         }
       }

@@ -1,29 +1,46 @@
+
 <div class ="chat-box-container">
 <div class="dashboard-container">
   <div class="chat-rooms-container">
     <div class="chat-room-list-header">
       <h1>Chats</h1>
+      <div class="account-options">
+        <button mat-icon-button [matMenuTriggerFor]="optionsMenu">
+          <mat-icon>settings</mat-icon>
+        </button>
+        <mat-menu #optionsMenu="matMenu">
+          <button class="logout-button" mat-menu-item (click)="logout()">Logout</button>
+          <button mat-menu-item (click)="userProfileNavigation()">View Profile</button>
+        </mat-menu>
+      </div>
       <button mat-raised-button color="primary" class="create-room-button" (click) ="onCreateChatRoom()">Create New Room</button>
     </div>
-    <ng-container *ngIf="chatRooms$ | async as chatRooms">
+    <ng-container *ngIf="chatRooms$ | async as chatRooms else loadingSpinner">
       <mat-list class="chat-list">
-        <mat-list-item class="chat-list-item" *ngFor="let room of chatRooms"(click)="onSelectedChatRoom(room)" >
+        <mat-list-item class="chat-list-item" *ngFor="let room of chatRooms" (click)="onSelectedChatRoom(room)">
           <div class="item-content">
             <span class="item-title">Name: {{ room.name }}</span>
-            <span class="item-id">Last message:{{lastMessage}}</span>
+            <span class="item-id">Last message: {{ lastMessage }}</span>
           </div>
         </mat-list-item>
-        <div  *ngIf ="chatRooms.length === 0 || !chatRooms" class="empty-chat-list">
-          <h1>You don`t have any chat rooms at the moment</h1>
+        <div *ngIf="chatRooms.length === 0" class="empty-chat-list">
+          <h1>You don't have any chat rooms at the moment</h1>
           <p>Add one using the button above</p>
         </div>
       </mat-list>
     </ng-container>
+
   </div>
 </div>
 <app-chat
 [activeChatRoom]="selectedChatRoom"
 (lastMessage) = "handleLastMessage($event)"
 ></app-chat>
-</div>
-<button (click)="logout()" style="background-color: red;">Logout</button>
+
+
+<!-- <button (click)="logout()" style="background-color: red;">Logout</button> -->
+
+<ng-template #loadingSpinner>
+  <mat-spinner></mat-spinner>
+</ng-template>
+

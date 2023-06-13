@@ -105,7 +105,8 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   @SubscribeMessage('reloadChatRooms')
-  async onReloadChatRooms(socket:Socket,chatRoom:ChatRoom,user: User){
+  async onReloadChatRooms(socket: Socket ,user: User){
+    console.log(user)
     const connection = await this.connectionService.findConnectionByUser(user);
     const chatRooms = await this.chatRoomService.getChatRoomsByUser(user)
     await this.server.to(connection[0].socketId).emit('chat-rooms',chatRooms);
