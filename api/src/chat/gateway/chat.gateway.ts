@@ -110,13 +110,6 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     const connection = await this.connectionService.findConnectionByUser(user);
     const chatRooms = await this.chatRoomService.getChatRoomsByUser(user)
     await this.server.to(connection[0].socketId).emit('chat-rooms',chatRooms);
-    // for(const user of chatRoom.users) {
-    //   const connections: Connection[] =  await this.connectionService.findConnectionByUser(user)
-    //   const rooms = await this.chatRoomService.getChatRoomsByUser(user)
-    //   for (const connection of connections) {
-    //     await this.server.to(connection.socketId).emit('chat-rooms',rooms)
-    //   }
-    // }
   }
 
   @SubscribeMessage('joinRoom')

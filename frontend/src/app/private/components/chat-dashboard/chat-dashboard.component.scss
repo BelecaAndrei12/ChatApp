@@ -24,14 +24,14 @@ html,body {
   width: 25%;
   margin-top: 30px;
 
-   @media (max-width: 1024px) {
-   height: 85%;
+   @media (max-width: 1440px) {
+   height: 80%;
    width: 30%;
   }
 
   @media (max-width: 1024px) {
-    height: 85%;
-    width: 30%;
+    height: 83%;
+    width: 45%;
   }
    @media (max-width: 768px) {
     width: 35%;
@@ -70,6 +70,9 @@ html,body {
       }
 
       .account-options {
+        @media (max-width: 1460px) {
+          margin-right: 60px;
+         }
         button{
           mat-icon{
             font-size: 40px;

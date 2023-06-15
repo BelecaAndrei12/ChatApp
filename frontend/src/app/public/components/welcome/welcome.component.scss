@@ -1,11 +1,39 @@
 .welcome {
-  background: linear-gradient(rgba(0, 0, 0.2, 0.1), rgba(0, 0, 0, 0.1)), url('../../../../assets/images/background.jpg');
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(rgba(0, 0, 0.2, 0.1), rgba(0, 0, 0, 0.1)), url('../../../../assets/images/undraw_work_chat_re_qes4\ \(2\).svg');
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: contain;
   background-position: center;
+  background-color:#caf0f8;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
+  width: 100%;
   color: white;
+
+  h1{
+    margin-bottom: 200px;
+    font-size: 50px;
+  }
+
+  .content{
+    width: 40%;
+    font-size: 25px;
+
+    margin: 5px;
+    padding: 5px;
+    a:hover {
+      color: purple;
+      cursor: pointer;
+    }
+
+    a {
+      color: #0077b6;
+    }
+    p{
+      margin: 50px;
+    }
+  }
 }
