@@ -15,12 +15,18 @@
   }
 
   @media (max-width: 1024px) {
+    margin-left: 30px;
+    margin-right: 100px;
     height: 800px;
     width: 650px;
   }
 
   @media (max-width: 768px) {
     width: 450px;
+  }
+
+  @media (max-width: 600) {
+    width: 200px;
   }
 
   @media (max-width: 425px) {

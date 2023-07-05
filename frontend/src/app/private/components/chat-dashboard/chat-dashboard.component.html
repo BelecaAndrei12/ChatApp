@@ -20,7 +20,6 @@
         <mat-list-item class="chat-list-item" *ngFor="let room of chatRooms" (click)="onSelectedChatRoom(room)">
           <div class="item-content">
             <span class="item-title">Name: {{ room.name }}</span>
-            <span class="item-id">Last message: {{ lastMessage }}</span>
           </div>
         </mat-list-item>
         <div *ngIf="chatRooms.length === 0" class="empty-chat-list">
